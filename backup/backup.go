@@ -77,7 +77,6 @@ func (b *Backup) Ship() error {
 		return err
 	}
 
-	// TODO: remove this if not needed
 	log.Println(fmt.Sprintf("stored: %s", result.Location))
 
 	return nil
