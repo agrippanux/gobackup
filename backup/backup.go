@@ -17,14 +17,16 @@ type Backup struct {
 	Dest     string
 	File     string
 	S3Bucket string
+	Prefix   string
 	S3Region string
 }
 
-func NewBackup(source, s3bucket, s3region string) (*Backup, error) {
+func NewBackup(source, s3bucket, s3region, prefix string) (*Backup, error) {
 	b := new(Backup)
 	b.S3Region = s3region
 	b.S3Bucket = s3bucket
 	b.Source = source
+	b.Prefix = prefix
 
 	now := time.Now()
 	timeStr := now.Format(time.RFC3339)
@@ -64,10 +66,18 @@ func (b *Backup) Ship() error {
 		return err
 	}
 
+	var s3path string
+
+	if len(b.Prefix) > 0 {
+		s3path = fmt.Sprintf("%s/%s", b.Prefix, b.File)
+	} else {
+		s3path = b.File
+	}
+
 	// Upload input parameters
 	upParams := &s3manager.UploadInput{
 		Bucket: &b.S3Bucket,
-		Key:    &b.File,
+		Key:    &s3path,
 		Body:   uploadFile,
 	}
 

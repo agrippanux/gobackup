@@ -16,6 +16,7 @@ func main() {
 	source := flag.String("source", "", "source to zip")
 	s3Bucket := flag.String("s3bucket", "", "s3 bucket to use")
 	s3Region := flag.String("s3region", "", "s3 region to use (example, us-west-2)")
+	prefix := flag.String("prefix", "", "directory prefix to use for s3 bucket")
 
 	flag.Parse()
 
@@ -40,7 +41,7 @@ func main() {
 		os.Getenv("AWS_SECRET_ACCESS_KEY") == "" {
 		log.Fatalln("please set the AWS_SECRET_KEY_ID and AWS_SECRET_ACCESS_KEY env variables")
 	}
-	b, err := backup.NewBackup(*source, *s3Bucket, *s3Region)
+	b, err := backup.NewBackup(*source, *s3Bucket, *s3Region, *prefix)
 	if err != nil {
 		log.Fatalln(err)
 	}
