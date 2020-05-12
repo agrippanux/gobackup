@@ -25,8 +25,8 @@ Example usage
 
 ```bash
 /usr/local/bin/gobackup -s3region=us-west-2 \
--s3bucket=craine-nest-backups -source=$mysql_path \
--env=/home/darren/gobackup/craine-nest-backup.env \
--prefix=nextcloud_mysql
+-s3bucket=replace-me -source=/home/directory \
+-env=/path/to/env/file \
+-prefix=test
 
 ```
